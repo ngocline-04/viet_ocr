@@ -1,8 +1,7 @@
 import { Button, Form, Input } from 'antd';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
+import { collection, getDocs} from 'firebase/firestore';
 import { get } from 'lodash';
-import app from 'next/app';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,8 +10,8 @@ import { IconSvgLocal } from '@/components';
 import { showDialog } from '@/components/dialog';
 import { hideLoading, showLoading } from '@/components/loading';
 import { setInfoUser } from '@/stores/authSlice';
+import { db } from './_app';
 
-const db = getFirestore(app);
 export default function LoginPage() {
   const auth = getAuth();
   const dispatch = useDispatch();

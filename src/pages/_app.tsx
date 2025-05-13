@@ -15,8 +15,10 @@ import type { NextPage } from 'next/types';
 import { wrapperStore } from '../stores/store';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { getFirestore } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -34,6 +36,7 @@ export const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 const auth = getAuth();
 // const analytics = getAnalytics(app);
 export type AppPropsWithLayout = AppProps & {
@@ -52,16 +55,18 @@ const MyApp = ({ Component, ...rest }: AppPropsWithLayout) => {
   const { store, props } = wrapperStore.useWrappedStore(rest);
   const Layout = Component.Layout ?? EmptyLayout;
   const router = useRouter();
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     const uid = user?.uid;
-  //     if (uid) {
-  //       router.push('/home');
-  //     }
-  //   } else {
-  //     router.push('/');
-  //   }
-  // });
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user?.uid;
+        if (uid) {
+          router.push('/home');
+        }
+      } else {
+        router.push('/');
+      }
+    });
+  },[])
   return (
     <PersistGate persistor={store.__persistor} loading={<div>Loading</div>}>
       <I18nextProvider i18n={i18n}>

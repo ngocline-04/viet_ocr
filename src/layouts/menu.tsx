@@ -1,5 +1,5 @@
 import type { MenuProps } from 'antd';
-import { Divider, Space } from 'antd';
+import { Button, Divider, Space } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
@@ -7,12 +7,16 @@ import { forwardRef, memo, useCallback, useEffect, useMemo, useState } from 'rea
 import isEqual from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-
+import {
+  LogoutOutlined,
+} from '@ant-design/icons';
 import type { IconSvgTypes } from '@/assets/svg';
 import { IconSvgLocal, TextBase } from '@/components';
 import { ROUTES } from '@/config/routes';
 import { selectLanguage, setLanguage } from '@/stores/globalSlice';
 import { changeLanguage } from '@/utils/i18n/i18n';
+import { selectInfoUser } from '@/stores/authSlice';
+import { getAuth, signOut } from 'firebase/auth';
 
 interface MenuNav {
   icon?: IconSvgTypes;
@@ -22,8 +26,8 @@ interface MenuNav {
 
 const Component = forwardRef((props, ref) => {
   const [keyActive, setKeyActive] = useState('');
-  const [isVietnamese, setIsVietnamese] = useState(true);
-
+  const [isVietnamese, setIsVietnamese] = useState(true)
+  const userInfo = useSelector(selectInfoUser)
   const language = useSelector(selectLanguage);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -54,7 +58,16 @@ const Component = forwardRef((props, ref) => {
       setKeyActive(activeMenuItem.link || '');
     }
   }, [router.pathname, menuData]);
-
+  const handleLogout = async () => {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      console.log('Đã đăng xuất thành công');
+      // Có thể điều hướng về trang login hoặc trang chính
+    } catch (error) {
+      console.error('Lỗi khi đăng xuất:', error);
+    }
+  };
   const menuFixed = useMemo(() => {
     return (
       <div className="h-full w-[260px] bg-primary-500 px-24 py-16">
@@ -82,13 +95,16 @@ const Component = forwardRef((props, ref) => {
   }, [keyActive, language, menuData, t, onClick]);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-primary-500">
       {/* ✅ Menu cố định bên trái */}
       {menuFixed}
-
       <div className="flex-1">
         {/* Nội dung chính của trang */}
         {props.children}
+      </div>
+      <div className='p-16 text-common-1000 text-16 flex flex-row items-center'>
+        <div>{userInfo?.name}</div>
+        <Button onClick={handleLogout} type="ghost" icon={<LogoutOutlined className='text-error-500'/>}/>
       </div>
     </div>
   );

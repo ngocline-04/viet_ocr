@@ -1,7 +1,7 @@
 export const ROUTES = {
-  HOME: '/',
+  HOME: '/home',
   MANAGE: '/manage-list',
-  LOGIN: '/login',
+  LOGIN: '/',
 };
 
 export const ROUTES_MAPPING = {
@@ -16,7 +16,7 @@ export const ROUTES_MAPPING = {
     breadcrumbTitle: '',
   },
   LOGIN: {
-    path: '/login',
+    path: '/',
     title: '',
     breadcrumbTitle: '',
   },

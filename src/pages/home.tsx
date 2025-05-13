@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { selectInfoUser } from '@/stores/authSlice';
 import dayjs from 'dayjs';
 import { hideLoading, showLoading } from '@/components/loading';
-import { userInfo } from 'os';
+
 import { showToast } from '@/components/toast';
 const db = getFirestore(app);
 const Home: NextPageWithLayout = () => {
