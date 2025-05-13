@@ -68,10 +68,13 @@ const Home: NextPageWithLayout = () => {
         userName: userInfo?.name,
         createdDate: dayjs().format('YYYYMMDD')
       });
-      showToast({
+      if(docRef?.id){
+              showToast({
 type:"success",
 content:"Lưu file thành công"
       })
+      }
+
     } catch (e) {
       console.error("Error adding document: ", e);
     }finally{
