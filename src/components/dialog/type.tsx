@@ -33,6 +33,7 @@ export interface ImageProps {
   name: IconSvgTypes;
   width?: number;
   height: number;
+  fill?: string;
 }
 
 export interface DialogProps {

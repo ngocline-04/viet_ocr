@@ -3,6 +3,7 @@ import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/
 import { createWrapper } from 'next-redux-wrapper';
 import { persistReducer, persistStore } from 'redux-persist';
 
+import { authSlice, type AuthenState } from './authSlice';
 // import storage from 'redux-persist/lib/storage';
 // import { encryptTransform } from 'redux-persist-transform-encrypt';
 import type { GlobalState } from './globalSlice';
@@ -10,10 +11,11 @@ import { globalSlice } from './globalSlice';
 import storePersist from './storePersist';
 import storeSessionPersist from './storeSessionPersist';
 
-export const PERSIST_KEY = 'pvcb_retail_ib';
+export const PERSIST_KEY = 'vietocr';
 
 const rootReducer = combineReducers({
   [globalSlice.name]: globalSlice.reducer,
+  [authSlice.name]: authSlice.reducer,
 });
 
 const makeConfiguredStore = () =>
@@ -43,6 +45,7 @@ export const makeStore = () => {
 
   const rootClientReducer = combineReducers({
     [globalSlice.name]: persistReducer(persistConfig, globalSlice.reducer),
+    [authSlice.name]: persistReducer(persistConfig, authSlice.reducer),
   });
 
   // const persistedSesstionReducer: any = persistReducer(persistSessionConfig, rootReducer);
@@ -70,4 +73,5 @@ export const wrapperStore = createWrapper(makeStore, { debug: false });
 // type state redux
 export interface RootState {
   [globalSlice.name]: GlobalState;
+  [authSlice.name]: AuthenState;
 }

@@ -2,9 +2,11 @@ import { Modal } from 'antd';
 import type { ReactNode } from 'react';
 import { createRef, forwardRef, useCallback, useImperativeHandle, useMemo, useState } from 'react';
 
+import type { IconSvgTypes } from '@/assets/svg';
 import type { DialogProps, TYPE_MESSAGE } from '@/components/dialog/type';
 import { stateDefault } from '@/components/dialog/type';
 
+import { IconSvgLocal } from '../icon-vec-local';
 import { DialogAction } from './dialog-action';
 
 // eslint-disable-next-line react/display-name
@@ -53,8 +55,18 @@ const Component = forwardRef((_: any, ref) => {
   }, [isDisableTouchOutSide]);
 
   return (
-    <Modal open={state?.isShow} centered closeIcon={false} footer={null} wrapClassName={"dialog"}>
+    <Modal open={state?.isShow} centered closeIcon={false} footer={null} wrapClassName="dialog">
       <div className={` duration-500 `} onClick={_onPressBackground}>
+        <div className="mb-16 flex w-full items-center justify-center">
+          {state?.image?.name && (
+            <IconSvgLocal
+              name={state?.image?.name as unknown as IconSvgTypes}
+              height={state?.image?.height}
+              width={state?.image?.width}
+              classNames={state?.image?.fill}
+            />
+          )}
+        </div>
         <div className="text-18 font-bold text-text-primary tablet:text-center">{state.title}</div>
         <div className="mt-4 text-14 font-normal text-text-primary tablet:text-center">
           {state.content || 'Content dialog: ....'}

@@ -3,6 +3,7 @@ import IC_ARROW_LEFT from './arrow-left.svg';
 import IC_ARROW_RIGHT from './arrow-right.svg';
 import ICON_EYE_OPEN from './eye-open.svg';
 import ICON_EYE_SPLASH from './eye-splash.svg';
+import IC_AUTHEN_ERROR from './ic-authen-err.svg';
 import ICON_CALENDAR from './ic_calendar.svg';
 import ICON_CHECK from './ic_check.svg';
 import ICON_INFO from './ic_info.svg';
@@ -21,6 +22,7 @@ import IC_VIETNAM from './ic-vietnam.svg';
 import IC_YOUTUBE from './ic-youtube.svg';
 import IC_ZALO from './ic-zalo.svg';
 import IC_LOGO_TP from './logo_tp.svg';
+import IC_DELETE from './ic-delete.svg'
 
 export const IconSvgs = {
   IC_MAINTAIN,
@@ -46,5 +48,7 @@ export const IconSvgs = {
   IC_YOUTUBE,
   IC_MENU,
   IC_CLOSE,
+  IC_AUTHEN_ERROR,
+  IC_DELETE,
 };
 export type IconSvgTypes = keyof typeof IconSvgs;
